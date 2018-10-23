@@ -1,32 +1,80 @@
 import Vue from "vue";
 import Router from "vue-router";
-import Home from "./views/Home.vue";
+import Login from "@/views/Login.vue";
+import Secrets from "@/views/Secrets.vue";
+import NotFound from "@/views/NotFound.vue";
+import Register from "@/views/Register.vue";
+import Dashboard from "@/views/Dashboard.vue";
+import ResetPassword from "@/views/ResetPassword.vue";
+import ForgotPassword from "@/views/ForgotPassword.vue";
+
+import store from "@/store";
 
 Vue.use(Router);
 
-export default new Router({
+const router = new Router({
   mode: "history",
-  base: process.env.BASE_URL,
   routes: [
     {
-      path: "/home",
-      name: "home",
-      component: Home
+      path: "/register",
+      name: "Register",
+      component: Register
     },
     {
-      path: "/about",
-      name: "about",
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () =>
-        import(/* webpackChunkName: "about" */ "./views/About.vue")
+      path: "/login",
+      name: "Login",
+      component: Login
+    },
+    {
+      path: "/forgot-password",
+      name: "ForgotPassword",
+      component: ForgotPassword
+    },
+    {
+      path: "/password/reset/:code",
+      name: "ResetPassword",
+      component: ResetPassword,
+      props: true
     },
     {
       path: "/",
-      name: "login",
-      component: () =>
-        import(/* webpackChunkName: "login" */ "./views/Login.vue")
+      name: "Dashboard",
+      component: Dashboard,
+      meta: { requiresAuth: true }
+    },
+    {
+      path: "/secrets",
+      name: "Secrets",
+      component: Secrets,
+      meta: { requiresAuth: true }
+    },
+    {
+      path: "*",
+      name: "NotFound",
+      component: NotFound
     }
   ]
 });
+
+// Set up global navigation guard
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    // this route requires auth, check if logged in
+    // if not, redirect to login page.
+    if (!store.getters.isAuthenticated) {
+      next({
+        path: "/login",
+        query: { redirect: to.fullPath }
+      });
+    } else {
+      next();
+    }
+  } else {
+    next(); // make sure to always call next()!
+  }
+
+  // Clear form errors on every page change
+  store.commit("clearFormErrors");
+});
+
+export default router;
