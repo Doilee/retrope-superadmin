@@ -14,7 +14,5 @@ module.exports = {
     "**/tests/unit/**/*.spec.(js|jsx|ts|tsx)|**/__tests__/*.(js|jsx|ts|tsx)"
   ],
   testURL: "http://localhost/",
-  transformIgnorePatterns: [
-    '/node_modules/.*',
-  ]
+  transformIgnorePatterns: ["/node_modules/.*"]
 };
