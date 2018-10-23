@@ -2553,6 +2553,12 @@ bser@^2.0.0:
   dependencies:
     node-int64 "^0.4.0"
 
+buefy@^0.7.0:
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/buefy/-/buefy-0.7.0.tgz#9c040bfa7ed7495de9ffc932434205249c8149b0"
+  dependencies:
+    bulma "0.7.1"
+
 buffer-crc32@~0.2.3:
   version "0.2.13"
   resolved "https://registry.yarnpkg.com/buffer-crc32/-/buffer-crc32-0.2.13.tgz#0d333e3f00eac50aa1454abd30ef8c2a5d9a7242"
@@ -2584,6 +2590,10 @@ builtin-modules@^1.0.0, builtin-modules@^1.1.1:
 builtin-status-codes@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/builtin-status-codes/-/builtin-status-codes-3.0.0.tgz#85982878e21b98e1c66425e03d0174788f569ee8"
+
+bulma@0.7.1:
+  version "0.7.1"
+  resolved "https://registry.yarnpkg.com/bulma/-/bulma-0.7.1.tgz#73c2e3b2930c90cc272029cbd19918b493fca486"
 
 bytes@3.0.0:
   version "3.0.0"
@@ -9150,9 +9160,9 @@ typescript-eslint-parser@^18.0.0:
     lodash.unescape "4.0.1"
     semver "5.5.0"
 
-typescript@^3.0.0:
-  version "3.1.3"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.1.3.tgz#01b70247a6d3c2467f70c45795ef5ea18ce191d5"
+typescript@3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.0.1.tgz#43738f29585d3a87575520a4b93ab6026ef11fdb"
 
 uglify-es@^3.3.4:
   version "3.3.9"
@@ -9359,6 +9369,10 @@ vm-browserify@0.0.4:
 vue-class-component@^6.0.0, vue-class-component@^6.2.0:
   version "6.3.2"
   resolved "https://registry.yarnpkg.com/vue-class-component/-/vue-class-component-6.3.2.tgz#e6037e84d1df2af3bde4f455e50ca1b9eec02be6"
+
+vue-cli-plugin-buefy@^0.3.2:
+  version "0.3.2"
+  resolved "https://registry.yarnpkg.com/vue-cli-plugin-buefy/-/vue-cli-plugin-buefy-0.3.2.tgz#8edf02fd8dc1e15eb220b8e32ef5d868733a3b3a"
 
 vue-eslint-parser@^2.0.3:
   version "2.0.3"
