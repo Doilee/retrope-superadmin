@@ -19,6 +19,7 @@ export default new Vuex.Store({
     },
     clearAuthCredentials(state) {
       state.jsonWebToken = null;
+      state.userId = null;
     },
     setFormErrors(state, errors) {
       state.formErrors = errors;
@@ -89,7 +90,7 @@ export default new Vuex.Store({
     },
     register({ commit, dispatch }, registration) {
       axios
-        .post("api/register", {
+        .post("auth/register", {
           name: registration.name,
           email: registration.email,
           password: registration.password,
@@ -107,6 +108,7 @@ export default new Vuex.Store({
           commit("setAuthCredentials", {
             token: response.data.access_token,
             userEmail: response.data.auth_email
+
           });
           dispatch("setLogoutTimer", response.data.expires_in);
           bus.$emit(

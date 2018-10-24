@@ -15,12 +15,12 @@
       </div>
       <div class="md:flex md:items-baseline mb-6">
         <div class="md:w-1/3">
-          <label class="block text-grey font-bold md:text-right mb-1 md:mb-0 pr-4" for="inline-full-name">
+          <label class="block text-grey font-bold md:text-right mb-1 md:mb-0 pr-4" for="inline-email">
             Email
           </label>
         </div>
         <div class="md:w-2/3">
-          <input class="bg-grey-lighter appearance-none border-2 border-grey-lighter hover:border-purple rounded w-full py-2 px-4 text-grey-darker" id="inline-full-name" type="email" v-model="registration.email">
+          <input class="bg-grey-lighter appearance-none border-2 border-grey-lighter hover:border-purple rounded w-full py-2 px-4 text-grey-darker" id="inline-email" type="email" v-model="registration.email">
           <p class="text-red text-sm mt-1" v-if="hasValidationError('email')">{{ getValidationError('email') }}</p>
         </div>
       </div>
@@ -31,7 +31,7 @@
           </label>
         </div>
         <div class="md:w-2/3">
-          <input class="bg-grey-lighter appearance-none border-2 border-grey-lighter hover:border-purple rounded w-full py-2 px-4 text-grey-darker" id="inline-username" type="password" v-model="registration.password">
+          <input class="bg-grey-lighter appearance-none border-2 border-grey-lighter hover:border-purple rounded w-full py-2 px-4 text-grey-darker"  type="password" v-model="registration.password">
           <p class="text-red text-sm mt-1" v-if="hasValidationError('password')">{{ getValidationError('password') }}</p>
         </div>
       </div>
@@ -42,7 +42,7 @@
           </label>
         </div>
         <div class="md:w-2/3">
-          <input class="bg-grey-lighter appearance-none border-2 border-grey-lighter hover:border-purple rounded w-full py-2 px-4 text-grey-darker" id="inline-username" type="password"   v-model="registration.password_confirmation">
+          <input class="bg-grey-lighter appearance-none border-2 border-grey-lighter hover:border-purple rounded w-full py-2 px-4 text-grey-darker"  type="password"   v-model="registration.password_confirmation">
         </div>
       </div>
       <div class="md:flex md:items-baseline">
