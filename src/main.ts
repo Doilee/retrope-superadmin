@@ -9,6 +9,7 @@ import "./assets/scss/app.scss";
 Vue.use(Buefy);
 
 Vue.config.productionTip = false;
+store.dispatch("tryAutoLogin");
 
 new Vue({
   router,

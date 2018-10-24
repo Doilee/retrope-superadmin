@@ -43,12 +43,6 @@ const router = new Router({
       meta: { requiresAuth: true }
     },
     {
-      path: "/secrets",
-      name: "Secrets",
-      component: Secrets,
-      meta: { requiresAuth: true }
-    },
-    {
       path: "*",
       name: "NotFound",
       component: NotFound
