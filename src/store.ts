@@ -19,7 +19,7 @@ export default new Vuex.Store({
     },
     clearAuthCredentials(state) {
       state.jsonWebToken = null;
-      state.userId = null;
+      state.userEmail = null;
     },
     setFormErrors(state, errors) {
       state.formErrors = errors;
@@ -44,7 +44,7 @@ export default new Vuex.Store({
           const now = new Date();
           const expirationDate = new Date(
             now.getTime() + response.data.expires_in * 1000
-          );
+          ).toString();
           localStorage.setItem("auth_token", response.data.access_token);
           localStorage.setItem("auth_email", response.data.auth_email);
           localStorage.setItem("auth_expiration", expirationDate);
@@ -64,8 +64,8 @@ export default new Vuex.Store({
       if (!jwt) {
         return;
       }
-      const expirationDate = localStorage.getItem("auth_expiration")
-        ? new Date(localStorage.getItem("auth_expiration"))
+      const expirationDate = Number(localStorage.getItem("auth_expiration"))
+        ? new Date(Number(localStorage.getItem("auth_expiration")))
         : "";
       const now = new Date();
       if (now >= expirationDate) {
@@ -100,7 +100,7 @@ export default new Vuex.Store({
           const now = new Date();
           const expirationDate = new Date(
             now.getTime() + response.data.expires_in * 1000
-          );
+          ).toString();
           localStorage.setItem("auth_token", response.data.access_token);
           localStorage.setItem("auth_email", response.data.auth_email);
           localStorage.setItem("auth_expiration", expirationDate);
@@ -108,7 +108,6 @@ export default new Vuex.Store({
           commit("setAuthCredentials", {
             token: response.data.access_token,
             userEmail: response.data.auth_email
-
           });
           dispatch("setLogoutTimer", response.data.expires_in);
           bus.$emit(
