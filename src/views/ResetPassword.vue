@@ -72,7 +72,7 @@ export default {
   methods: {
     attemptPasswordChange() {
       axios
-        .post("/api/password/reset", {
+        .post("/auth/password/reset", {
           email: this.email,
           token: this.code,
           password: this.password,
