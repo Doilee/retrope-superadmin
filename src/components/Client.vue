@@ -74,7 +74,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
-import axios from "axios";
+import axios from "@/axios";
 @Component
 export default class Client extends Vue {
   data() {
@@ -88,9 +88,8 @@ export default class Client extends Vue {
     };
   }
   created() {
-    const path = "http://localhost:9090/client";
     axios
-      .get(path, {
+      .get('/client', {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("auth_token")
         }
