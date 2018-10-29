@@ -47,7 +47,7 @@ export default {
     sendRequest() {
       this.clearFormErrors();
       axios
-        .post("/api/password/email", {
+        .post("/auth/password/create", {
           email: this.email
         })
         .then(() => {
