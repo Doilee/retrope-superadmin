@@ -10,8 +10,8 @@
     "test:unit": "vue-cli-service test:unit"
   },
   "dependencies": {
-    "buefy": "^0.7.0",
     "axios": "^0.18.0",
+    "buefy": "^0.7.0",
     "register-service-worker": "^1.0.0",
     "vue": "^2.5.17",
     "vue-class-component": "^6.0.0",
@@ -38,6 +38,7 @@
     "ts-jest": "^23.0.0",
     "typescript": "3.0.1",
     "vue-cli-plugin-buefy": "^0.3.2",
-    "vue-template-compiler": "^2.5.17"
+    "vue-template-compiler": "^2.5.17",
+    "vue-tables-2": "^1.4.70"
   }
 }

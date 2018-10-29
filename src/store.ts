@@ -32,7 +32,7 @@ export default new Vuex.Store({
     setLogoutTimer({ commit }, expirationTime) {
       setTimeout(() => {
         commit("clearAuthData");
-      }, expirationTime * 1000);
+      }, expirationTime * 9000);
     },
     login({ commit, dispatch }, credentials) {
       axios
@@ -53,7 +53,7 @@ export default new Vuex.Store({
             token: response.data.access_token,
             userEmail: response.data.auth_email
           });
-          dispatch("setLogoutTimer", response.data.expires_in);
+          //dispatch("setLogoutTimer", response.data.expires_in);
 
           router.push({ name: "Dashboard" });
         })

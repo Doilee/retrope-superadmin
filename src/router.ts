@@ -1,7 +1,6 @@
 import Vue from "vue";
 import Router from "vue-router";
 import Login from "@/views/Login.vue";
-import Secrets from "@/views/Secrets.vue";
 import NotFound from "@/views/NotFound.vue";
 import Register from "@/views/Register.vue";
 import Dashboard from "@/views/Dashboard.vue";
@@ -46,6 +45,16 @@ const router = new Router({
       path: "*",
       name: "NotFound",
       component: NotFound
+    },
+    {
+      path: "/clients",
+      name: "clients",
+      // route level code-splitting
+      // this generates a separate chunk (about.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () =>
+        import(/* webpackChunkName: "about" */ "./views/Client.vue"),
+      meta: { requiresAuth: true }
     }
   ]
 });

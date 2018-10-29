@@ -3,10 +3,7 @@
     <div class="hero-body">
       <div class="container has-text-centered">
         <div class="column is-4 is-offset-4">
-            <h3 class="title has-text-black">RETROPE | Dashboard</h3>
             <div class="box">
-              <p class="text-center">Hello!</p>
-              <p class="text-center">You are logged in.</p>
               <p class="w-full text-center my-8">
                 <button
                   class="button is-primary"

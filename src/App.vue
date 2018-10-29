@@ -1,15 +1,61 @@
 <template>
   <div id="app">
     <div id="nav">
-      <div class="flex items-center flex-no-shrink text-white mr-6">
-        <strong class="font-semibold text-xl tracking-tight">RETROPE</strong>
-      </div>
       <div class="w-full block flex-grow lg:flex lg:items-center lg:w-auto">
         <div class="text-sm lg:flex-grow">
           <div v-if="authenticated">
-            <router-link :to="{ name: 'Dashboard' }" class="block mt-4 lg:inline-block lg:mt-0 text-purple-lightest no-underline hover:text-white mr-4">
-              Dashboard
-            </router-link>
+            <nav class="navbar" role="navigation" aria-label="main navigation">
+              <div class="navbar-brand">
+                <a class="navbar-item" href="#">
+                  <img src="/img/logo.svg">
+                </a>
+                <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+                  <span aria-hidden="true"></span>
+                  <span aria-hidden="true"></span>
+                  <span aria-hidden="true"></span>
+                </a>
+              </div>
+
+              <div id="navbarBasicExample" class="navbar-menu">
+                <div class="navbar-start">
+                  <router-link :to="{ name: 'Dashboard' }" class="navbar-item">
+                    Dashboard
+                  </router-link>
+
+                  <router-link class="navbar-item" to="/clients">Clients</router-link>
+
+                  <div class="navbar-item has-dropdown is-hoverable">
+                    <a class="navbar-link">
+                      More
+                    </a>
+
+                    <div class="navbar-dropdown">
+                      <a class="navbar-item">
+                        About
+                      </a>
+                      <a class="navbar-item">
+                        Subscriptions
+                      </a>
+                      <a class="navbar-item">
+                        Contact
+                      </a>
+                      <hr class="navbar-divider">
+                      <a class="navbar-item">
+                        Reports
+                      </a>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="navbar-end">
+                  <div class="navbar-item">
+                    <div class="buttons">
+                        <button class="button is-primary" @click="logout">Log Out</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </nav>
           </div>
         </div>
         <div v-if="!authenticated">
@@ -26,18 +72,15 @@
             Log In
           </router-link>
         </div>
-        <div v-else>
-          <button class="button is-ligh" @click="logout">Log Out</button>
-        </div>
       </div>
     </div>
     <div class="p-8 flex-auto">
       <router-view/>
     </div>
-    <div class="box">
-    TOKEN
-      <pre class="whitespace-pre-wrap break-words">{{ token }}</pre>
-    </div>
+    <!--<div class="box">-->
+    <!--TOKEN-->
+      <!--<pre class="whitespace-pre-wrap break-words">{{ token }}</pre>-->
+    <!--</div>-->
     <flash-stack></flash-stack>
   </div>
 </template>
