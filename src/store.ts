@@ -121,6 +121,7 @@ export default new Vuex.Store({
         .catch(() => {}); // See axios config for basic error handling
     }
   },
+  
   getters: {
     isAuthenticated(state) {
       return state.jsonWebToken !== null;
