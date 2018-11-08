@@ -1,17 +1,22 @@
 <template>
-  <div>
-    <h1>Dashboard</h1>
-    <p class="text-center">Hello, {{ userEmail }}.</p>
-    <p class="text-center">You are logged in.</p>
-    <p class="w-full text-center my-8">
-      <a
-        class="bg-grey-dark hover:bg-grey-darker text-white font-bold py-2 px-4 m-2 rounded cursor-pointer"
-        @click.prevent="alert('This is a test message.', 'success');"
-      >
-        Test Alert
-      </a>
-    </p>
-  </div>
+  <section class="hero is-medium is-white is-bold">
+    <div class="hero-body">
+      <div class="container has-text-centered">
+        <div class="column is-4 is-offset-4">
+          <div class="box">
+            <p class="w-full text-center my-8">
+              <button
+                class="button is-primary"
+                @click.prevent="alert('This is a test message.', 'success');"
+              >
+                Test Alert
+              </button>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 </template>
 
 <script>

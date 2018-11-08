@@ -1,68 +1,69 @@
 <template>
-  <div>
-    <h1>Login</h1>
-    <form class="w-full max-w-sm mx-auto">
-      <div class="md:flex md:items-baseline mb-6">
-        <div class="md:w-1/3">
-          <label
-            class="block text-grey font-bold md:text-right mb-1 md:mb-0 pr-4"
-            for="inline-full-name"
-          >
-            Email
-          </label>
-        </div>
-        <div class="md:w-2/3">
-          <input
-            class="bg-grey-lighter appearance-none border-2 border-grey-lighter focus:border-purple rounded w-full py-2 px-4 text-grey-darker"
-            id="inline-full-name"
-            type="email"
-            v-model="credentials.email"
-          />
-          <p class="text-red text-sm mt-1" v-if="hasValidationError('email')">
-            {{ getValidationError("email") }}
-          </p>
+  <section class="hero is-medium is-primary is-bold">
+    <div class="hero-body">
+      <div class="container has-text-centered">
+        <div class="column is-4 is-offset-4">
+          <h3 class="title has-text-white">Login</h3>
+          <p class="subtitle has-text-white">Please login to proceed.</p>
+          <div class="box">
+            <form class="w-full max-w-sm mx-auto">
+              <div class="field">
+                <div class="control">
+                  <input
+                    class="input is-large"
+                    id="inline-full-name"
+                    type="email"
+                    placeholder="Your Email"
+                    autofocus=""
+                    v-model="credentials.email"
+                  />
+                  <p
+                    class="text-red text-sm mt-1"
+                    v-if="hasValidationError('email')"
+                  >
+                    {{ getValidationError("email") }}
+                  </p>
+                </div>
+              </div>
+
+              <div class="field">
+                <div class="control">
+                  <input
+                    class="input is-large"
+                    id="inline-username"
+                    type="password"
+                    placeholder="Your Password"
+                    @keydown.enter.prevent="login"
+                    v-model="credentials.password"
+                  />
+                  <p
+                    class="text-red text-sm mt-1"
+                    v-if="hasValidationError('email')"
+                  >
+                    {{ getValidationError("email") }}
+                  </p>
+                </div>
+              </div>
+              <button
+                class="button is-primary"
+                type="button"
+                @click.prevent="login"
+              >
+                Login
+              </button>
+              <button
+                class="button is-light"
+                type="button"
+                @click.prevent="forgot"
+              >
+                Forgot Password
+              </button>
+            </form>
+          </div>
         </div>
       </div>
-      <div class="md:flex md:items-baseline mb-6">
-        <div class="md:w-1/3">
-          <label
-            class="block text-grey font-bold md:text-right mb-1 md:mb-0 pr-4"
-            for="inline-username"
-          >
-            Password
-          </label>
-        </div>
-        <div class="md:w-2/3">
-          <input
-            class="bg-grey-lighter appearance-none border-2 border-grey-lighter focus:border-purple rounded w-full py-2 px-4 text-grey-darker"
-            id="inline-username"
-            type="password"
-            @keydown.enter.prevent="login"
-            v-model="credentials.password"
-          />
-        </div>
-      </div>
-      <div class="md:flex md:items-baseline">
-        <div class="md:w-1/3"></div>
-        <div class="md:w-2/3">
-          <button
-            class="shadow bg-purple hover:bg-purple-light text-white font-bold py-2 px-4 rounded"
-            type="button"
-            @click.prevent="login"
-          >
-            Login
-          </button>
-          <button
-            class="bg-transparent hover:bg-purple text-purple-dark font-semibold hover:text-white py-2 px-4 ml-2 border border-purple hover:border-transparent rounded"
-            type="button"
-            @click.prevent="forgot"
-          >
-            Forgot Password
-          </button>
-        </div>
-      </div>
-    </form>
-  </div>
+    </div>
+  </section>
 </template>
 
 <script>
