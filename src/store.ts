@@ -19,7 +19,6 @@ export default new Vuex.Store({
     },
     clearAuthCredentials(state) {
       state.jsonWebToken = null;
-      state.userId = null;
     },
     setFormErrors(state, errors) {
       state.formErrors = errors;
@@ -47,7 +46,6 @@ export default new Vuex.Store({
           );
           localStorage.setItem("auth_token", response.data.access_token);
           localStorage.setItem("auth_email", response.data.auth_email);
-          localStorage.setItem("auth_expiration", expirationDate);
 
           commit("setAuthCredentials", {
             token: response.data.access_token,
@@ -59,32 +57,11 @@ export default new Vuex.Store({
         })
         .catch(() => {}); // See axios config for basic error handling
     },
-    tryAutoLogin({ commit }) {
-      const jwt = localStorage.getItem("auth_token");
-      if (!jwt) {
-        return;
-      }
-      const expirationDate = localStorage.getItem("auth_expiration")
-        ? new Date(localStorage.getItem("auth_expiration"))
-        : "";
-      const now = new Date();
-      if (now >= expirationDate) {
-        localStorage.removeItem("auth_token");
-        localStorage.removeItem("auth_email");
-        localStorage.removeItem("auth_expiration");
-        return;
-      }
-      commit("setAuthCredentials", {
-        token: jwt,
-        userEmail: localStorage.getItem("auth_email")
-      });
-    },
     logout({ commit }) {
       commit("clearAuthCredentials");
       bus.$emit("flash", "Goodbye! Your session has ended.", "success");
       localStorage.removeItem("auth_token");
       localStorage.removeItem("auth_email");
-      localStorage.removeItem("auth_expiration");
       router.push({ name: "Login" });
     },
     register({ commit, dispatch }, registration) {
@@ -102,7 +79,6 @@ export default new Vuex.Store({
           );
           localStorage.setItem("auth_token", response.data.access_token);
           localStorage.setItem("auth_email", response.data.auth_email);
-          localStorage.setItem("auth_expiration", expirationDate);
 
           commit("setAuthCredentials", {
             token: response.data.access_token,
