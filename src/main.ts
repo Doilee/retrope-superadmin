@@ -17,6 +17,9 @@ Vue.component("icon", Icon);
 Vue.use(Buefy);
 Vue.use(Vuex, axios);
 
+// Attempt to read credentials from local storage
+store.dispatch("tryAutoLogin");
+
 // Create the primary vue instance
 new Vue({
   router,

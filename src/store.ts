@@ -29,9 +29,7 @@ export default new Vuex.Store({
   },
   actions: {
     setLogoutTimer({ commit }, expirationTime) {
-      setTimeout(() => {
-        commit("clearAuthData");
-      }, expirationTime * 1000);
+      setTimeout(() => {}, expirationTime * 1000);
     },
     login({ commit, dispatch }, credentials) {
       axios
@@ -41,15 +39,10 @@ export default new Vuex.Store({
         })
         .then(response => {
           const now = new Date();
-          const expirationDate = new Date(
-            now.getTime() + response.data.expires_in * 1000
-          );
           localStorage.setItem("auth_token", response.data.access_token);
-          localStorage.setItem("auth_email", response.data.auth_email);
 
           commit("setAuthCredentials", {
-            token: response.data.access_token,
-            userEmail: response.data.auth_email
+            token: response.data.access_token
           });
           dispatch("setLogoutTimer", response.data.expires_in);
 
@@ -57,11 +50,21 @@ export default new Vuex.Store({
         })
         .catch(() => {}); // See axios config for basic error handling
     },
+    tryAutoLogin({ commit }) {
+      const jwt = localStorage.getItem("auth_token");
+      if (!jwt) {
+        return;
+      }
+      const now = new Date();
+      commit("setAuthCredentials", {
+        token: jwt
+      });
+    },
     logout({ commit }) {
       commit("clearAuthCredentials");
       bus.$emit("flash", "Goodbye! Your session has ended.", "success");
       localStorage.removeItem("auth_token");
-      localStorage.removeItem("auth_email");
+      localStorage.removeItem("expires_at");
       router.push({ name: "Login" });
     },
     register({ commit, dispatch }, registration) {
@@ -74,15 +77,9 @@ export default new Vuex.Store({
         })
         .then(response => {
           const now = new Date();
-          const expirationDate = new Date(
-            now.getTime() + response.data.expires_in * 1000
-          );
           localStorage.setItem("auth_token", response.data.access_token);
-          localStorage.setItem("auth_email", response.data.auth_email);
-
           commit("setAuthCredentials", {
-            token: response.data.access_token,
-            userEmail: response.data.auth_email
+            token: response.data.access_token
           });
           dispatch("setLogoutTimer", response.data.expires_in);
           bus.$emit(
