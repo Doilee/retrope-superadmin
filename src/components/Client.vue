@@ -59,7 +59,7 @@
           </span>
         </b-table-column>
         <b-table-column field="options" label="Options" class="right-column">
-          <button class="button is-small is-success" @click="edit(props.row);">
+          <button class="button is-small is-success" @click="showModal = true;">
             <b-icon icon="pencil" size="is-small"></b-icon>
           </button>
           <button
@@ -78,14 +78,18 @@
         <!-- </b-table-column> -->
       </template>
     </b-table>
+    <modal v-if="showModal" @close="showModal = false;">
+      <h3 slot="header">Edit Client</h3>
+      <div slot="body">TODO: ADD HTML FORM HERE</div>
+    </modal>
   </section>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
 import axios from "axios";
-@Component
-export default class Client extends Vue {
+import Modal from "@/components/Modal.vue";
+export default {
   data() {
     return {
       data: [],
@@ -93,11 +97,12 @@ export default class Client extends Vue {
       isPaginationSimple: false,
       defaultSortDirection: "asc",
       currentPage: 1,
-      perPage: 5
+      perPage: 5,
+      showModal: false
     };
-  }
+  },
   created() {
-    const path = "http://localhost:9090/client";
+    const path = "http://localhost:8000/client";
     axios
       .get(path, {
         headers: {
@@ -108,8 +113,16 @@ export default class Client extends Vue {
         this.data = response.data.data;
       })
       .catch(error => {});
+  },
+  methods: {
+    edit() {
+      console.log("wolla");
+    }
+  },
+  components: {
+    Modal
   }
-}
+};
 </script>
 <style>
 button.is-success {
