@@ -59,28 +59,48 @@
           </span>
         </b-table-column>
         <b-table-column field="options" label="Options" class="right-column">
-          <button class="button is-small is-success" @click="showModal = true;">
+          <button
+            class="button is-small is-success"
+            @click="openEditForm(props.row);"
+          >
             <b-icon icon="pencil" size="is-small"></b-icon>
           </button>
           <button
             class="button is-small is-danger"
-            @click.native="delete props.row;"
+            @click="deleteRow(props.row);"
           >
             <b-icon icon="delete" size="is-small"></b-icon>
           </button>
         </b-table-column>
-
-        <!-- <b-table-column label="Gender"> -->
-        <!-- <b-icon pack="fas" -->
-        <!-- :icon="props.row.gender === 'Male' ? 'mars' : 'venus'"> -->
-        <!-- </b-icon> -->
-        <!-- {{ props.row.gender }} -->
-        <!-- </b-table-column> -->
       </template>
     </b-table>
-    <modal v-if="showModal" @close="showModal = false;">
+    <modal v-if="showModal">
       <h3 slot="header">Edit Client</h3>
-      <div slot="body">TODO: ADD HTML FORM HERE</div>
+      <div slot="body">
+        <div class="field">
+          <label class="label">Name</label>
+          <div class="control">
+            <input
+              class="input"
+              type="text"
+              v-model="modalData.name"
+              placeholder="Name.."
+            />
+          </div>
+        </div>
+      </div>
+      <div slot="footer">
+        <div class="field is-grouped">
+          <div class="control">
+            <button class="button is-link" @click="updateRow();">Submit</button>
+          </div>
+          <div class="control">
+            <button class="button is-text" @click="showModal = false;">
+              Cancel
+            </button>
+          </div>
+        </div>
+      </div>
     </modal>
   </section>
 </template>
@@ -89,6 +109,8 @@
 import { Component, Prop, Vue } from "vue-property-decorator";
 import axios from "axios";
 import Modal from "@/components/Modal.vue";
+const path = "http://localhost:8000/client";
+
 export default {
   data() {
     return {
@@ -98,11 +120,14 @@ export default {
       defaultSortDirection: "asc",
       currentPage: 1,
       perPage: 5,
-      showModal: false
+      showModal: false,
+      modalData: {
+        id: Number,
+        name: String
+      }
     };
   },
   created() {
-    const path = "http://localhost:8000/client";
     axios
       .get(path, {
         headers: {
@@ -115,8 +140,40 @@ export default {
       .catch(error => {});
   },
   methods: {
-    edit() {
-      console.log("wolla");
+    updateRow() {
+      axios
+        .put(path + "/" + this.modalData.id, this.modalData, {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("auth_token")
+          }
+        })
+        .then(response => {
+          this.showModal = false;
+          this.$dialog.alert(response.data.message);
+        })
+        .catch(error => {
+          this.showModal = false;
+          this.$dialog.alert(error.response.data.message);
+        });
+    },
+    openEditForm(row) {
+      this.modalData = row;
+      this.showModal = true;
+    },
+    deleteRow(row) {
+      axios
+        .delete(path + "/" + row.id, {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("auth_token")
+          }
+        })
+        .then(response => {
+          row = null;
+          this.$dialog.alert(response.data.message);
+        })
+        .catch(error => {
+          this.$dialog.alert(error.response.data.message);
+        });
     }
   },
   components: {
