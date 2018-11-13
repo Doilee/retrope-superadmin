@@ -114,7 +114,6 @@
 import axios from "@/axios";
 import Modal from "@/components/Modal.vue";
 import { apiHost } from "@/config";
-import Datepicker from "vuejs-datepicker";
 
 const path = apiHost;
 
