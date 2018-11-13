@@ -4,7 +4,7 @@
       <div style="display: block;clear: both;text-align:right; width:25%">
         <AddClient />
       </div>
-      <br>
+      <br />
       <div class=" has-text-centered"><Client /></div>
     </div>
   </section>

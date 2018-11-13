@@ -41,6 +41,7 @@
 import axios from "@/axios";
 import Modal from "@/components/Modal.vue";
 import { apiHost } from "@/config";
+import router from "@/router";
 
 const path = apiHost;
 
@@ -67,7 +68,7 @@ export default {
         .then(response => {
           this.showModal = false;
           this.$dialog.alert(response.data.message);
-          true;
+          router.push({ name: "Login" });
         })
         .catch(error => {
           this.showModal = false;
