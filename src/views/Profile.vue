@@ -11,6 +11,7 @@
           v-model="profile.name"
         />
       </div>
+      <div v-for="(error, index) in errors.name" :key="index">{{ error }}</div>
     </div>
     <div class="field">
       <label class="label" for="inline-full-email"> Email </label>
@@ -22,6 +23,7 @@
           v-model="profile.email"
         />
       </div>
+      <div v-for="(error, index) in errors.email" :key="index">{{ error }}</div>
     </div>
     <div>
       <div></div>
@@ -45,6 +47,10 @@ export default {
       profile: {
         name: "",
         email: ""
+      },
+      errors: {
+        name: [],
+        email: []
       }
     };
   },
@@ -74,6 +80,7 @@ export default {
         .catch(error => {
           console.log(error.response);
           bus.$emit("flash", error.response.data.message, "warning");
+          this.errors = error.response.data.details;
         });
     }
   }
