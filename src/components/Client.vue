@@ -106,10 +106,11 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
-import axios from "axios";
+import axios from "@/axios";
 import Modal from "@/components/Modal.vue";
-const path = "http://localhost:8000/client";
+import { apiHost } from "@/config";
+
+const path = apiHost;
 
 export default {
   data() {
@@ -129,7 +130,7 @@ export default {
   },
   created() {
     axios
-      .get(path, {
+      .get(path + "/client", {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("auth_token")
         }
@@ -142,7 +143,7 @@ export default {
   methods: {
     updateRow() {
       axios
-        .put(path + "/" + this.modalData.id, this.modalData, {
+        .put(path + "/client/" + this.modalData.id, this.modalData, {
           headers: {
             Authorization: "Bearer " + localStorage.getItem("auth_token")
           }
@@ -162,7 +163,7 @@ export default {
     },
     deleteRow(row) {
       axios
-        .delete(path + "/" + row.id, {
+        .delete(path + "/client/" + row.id, {
           headers: {
             Authorization: "Bearer " + localStorage.getItem("auth_token")
           }
