@@ -9,6 +9,7 @@ import Client from "@/views/Client.vue";
 import ResetPassword from "@/views/ResetPassword.vue";
 import ForgotPassword from "@/views/ForgotPassword.vue";
 import Profile from "@/views/Profile.vue";
+import Subscription from "@/views/Subscription.vue";
 
 import store from "@/store";
 
@@ -52,8 +53,14 @@ const router = new Router({
     },
     {
       path: "/clients",
-      name: "clients",
+      name: "Clients",
       component: Client,
+      meta: { requiresAuth: true }
+    },
+    {
+      path: "/client/:id",
+      name: "Subscriptions",
+      component: Subscription,
       meta: { requiresAuth: true }
     },
     {
@@ -66,7 +73,7 @@ const router = new Router({
       path: "*",
       name: "NotFound",
       component: NotFound
-    },
+    }
   ]
 });
 

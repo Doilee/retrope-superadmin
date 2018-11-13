@@ -67,10 +67,15 @@
           </button>
           <button
             class="button is-small is-danger"
-            @click="deleteRow(props.row);"
+            @click="deleteRow(props.index, props.row);"
           >
             <b-icon icon="delete" size="is-small"></b-icon>
           </button>
+          <router-link
+            :to="{ name: 'Subscriptions', params: { id: props.row.id } }"
+          >
+            Subscriptions
+          </router-link>
         </b-table-column>
       </template>
     </b-table>
@@ -109,6 +114,7 @@
 import axios from "@/axios";
 import Modal from "@/components/Modal.vue";
 import { apiHost } from "@/config";
+import Datepicker from "vuejs-datepicker";
 
 const path = apiHost;
 
@@ -161,7 +167,7 @@ export default {
       this.modalData = row;
       this.showModal = true;
     },
-    deleteRow(row) {
+    deleteRow(index, row) {
       axios
         .delete(path + "/client/" + row.id, {
           headers: {
@@ -171,6 +177,7 @@ export default {
         .then(response => {
           row = null;
           this.$dialog.alert(response.data.message);
+          this.data.splice(index, 1);
         })
         .catch(error => {
           this.$dialog.alert(error.response.data.message);
