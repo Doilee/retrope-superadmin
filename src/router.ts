@@ -8,6 +8,7 @@ import Dashboard from "@/views/Dashboard.vue";
 import Client from "@/views/Client.vue";
 import ResetPassword from "@/views/ResetPassword.vue";
 import ForgotPassword from "@/views/ForgotPassword.vue";
+import Profile from "@/views/Profile.vue";
 
 import store from "@/store";
 
@@ -50,6 +51,18 @@ const router = new Router({
       meta: { requiresAuth: true }
     },
     {
+      path: "/clients",
+      name: "clients",
+      component: Client,
+      meta: { requiresAuth: true }
+    },
+    {
+      path: "/profile",
+      name: "Profile",
+      component: Profile,
+      meta: { requiresAuth: true }
+    },
+    {
       path: "*",
       name: "NotFound",
       component: NotFound
@@ -64,6 +77,7 @@ const router = new Router({
         import(/* webpackChunkName: "client" */ "./views/Client.vue"),
       meta: { requiresAuth: true }
     }
+
   ]
 });
 
