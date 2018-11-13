@@ -8,6 +8,7 @@ import Dashboard from "@/views/Dashboard.vue";
 import Client from "@/views/Client.vue";
 import ResetPassword from "@/views/ResetPassword.vue";
 import ForgotPassword from "@/views/ForgotPassword.vue";
+import Profile from "@/views/Profile.vue";
 
 import store from "@/store";
 
@@ -50,20 +51,22 @@ const router = new Router({
       meta: { requiresAuth: true }
     },
     {
+      path: "/clients",
+      name: "clients",
+      component: Client,
+      meta: { requiresAuth: true }
+    },
+    {
+      path: "/profile",
+      name: "Profile",
+      component: Profile,
+      meta: { requiresAuth: true }
+    },
+    {
       path: "*",
       name: "NotFound",
       component: NotFound
     },
-    {
-      path: "/clients",
-      name: "clients",
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () =>
-        import(/* webpackChunkName: "client" */ "./views/Client.vue"),
-      meta: { requiresAuth: true }
-    }
   ]
 });
 

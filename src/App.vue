@@ -54,6 +54,8 @@
                     </div>
                   </div>
                 </div>
+                <router-link :to="{ name: 'Profile' }" class="mdi mdi-face">
+                </router-link>
               </div>
             </nav>
           </div>
