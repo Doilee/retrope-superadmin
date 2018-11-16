@@ -38,7 +38,7 @@
           </button>
           <button
             class="button is-small is-danger"
-            @click="deleteRow(props.index, props.row);"
+            @click="deleteRow(props.row);"
           >
             <b-icon icon="delete" size="is-small"></b-icon>
           </button>
@@ -179,7 +179,7 @@ export default class Subscription extends Vue {
     this.modalData = row;
     this.showModal = true;
   }
-  deleteRow(index, row) {
+  deleteRow(row) {
     this.$swal({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
