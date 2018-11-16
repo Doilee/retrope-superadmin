@@ -95,24 +95,29 @@ import axios from "@/axios";
 import Modal from "@/components/Modal.vue";
 import { apiHost } from "@/config";
 import Datepicker from "vuejs-datepicker";
-import moment from "moment";
+import moment, { Moment } from "moment";
+import Component from "vue-class-component";
+import Vue from "vue";
 
 const path = apiHost;
 
-export default {
+@Component({
   props: {
-    client_id: Number
+    client_id: Number | String
   },
-  data() {
-    return {
-      data: [],
-      showModal: false,
-      modalData: {
-        type: String,
-        expires_at: Date
-      }
-    };
-  },
+  components: {
+    Modal,
+    Datepicker
+  }
+})
+export default class Subscription extends Vue {
+  data: Array = [];
+  showModal: boolean = false;
+  modalData: {
+    type: String;
+    expires_at: String;
+  };
+
   created() {
     axios
       .get(path + "/client/" + this.client_id, {
@@ -124,84 +129,88 @@ export default {
         this.data = response.data.subscriptions;
       })
       .catch(error => {});
-  },
-  methods: {
-    updateRow() {
-      this.modalData.expires_at = moment(this.modalData.expires_at).format(
-        "YYYY-MM-D h:mm:ss"
-      );
-      axios
-        .put(path + "/subscription/" + this.modalData.id, this.modalData, {
+  }
+
+  updateRow() {
+    this.modalData.expires_at = moment(this.modalData.expires_at).format(
+      "YYYY-MM-D h:mm:ss"
+    );
+    axios
+      .put(path + "/subscription/" + this.modalData.id, this.modalData, {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("auth_token")
+        }
+      })
+      .then(response => {
+        this.showModal = false;
+        this.$swal(response.data.message);
+      })
+      .catch(error => {
+        this.showModal = false;
+        this.$swal(error.response.data.message);
+      });
+  }
+  addRow() {
+    this.modalData.expires_at = moment(this.modalData.expires_at).format(
+      "YYYY-MM-D h:mm:ss"
+    );
+
+    axios
+      .post(
+        path + "/client/" + this.client_id + "/subscription",
+        this.modalData,
+        {
           headers: {
             Authorization: "Bearer " + localStorage.getItem("auth_token")
           }
-        })
-        .then(response => {
-          this.showModal = false;
-          this.$dialog.alert(response.data.message);
-        })
-        .catch(error => {
-          this.showModal = false;
-          this.$dialog.alert(error.response.data.message);
-        });
-    },
-    addRow() {
-      this.modalData.expires_at = moment(this.modalData.expires_at).format(
-        "YYYY-MM-D h:mm:ss"
-      );
-      axios
-        .post(
-          path + "/client/" + this.client_id + "/subscription",
-          this.modalData,
-          {
+        }
+      )
+      .then(response => {
+        this.showModal = false;
+        this.$swal(response.data.message);
+        this.data.push(response.data.subscription);
+      })
+      .catch(error => {
+        this.showModal = false;
+        this.$swal(error.response.data.message);
+      });
+  }
+  openEditForm(row) {
+    this.modalData = row;
+    this.showModal = true;
+  }
+  deleteRow(index, row) {
+    this.$swal({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      type: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!"
+    }).then(result => {
+      if (result.value) {
+        axios
+          .delete(path + "/subscription/" + row.id, {
             headers: {
               Authorization: "Bearer " + localStorage.getItem("auth_token")
             }
-          }
-        )
-        .then(response => {
-          this.showModal = false;
-          this.$dialog.alert(response.data.message);
-          this.data.push(response.data.subscription);
-        })
-        .catch(error => {
-          this.showModal = false;
-          this.$dialog.alert(error.response.data.message);
-        });
-    },
-    openEditForm(row) {
-      this.modalData = row;
-      this.showModal = true;
-    },
-    deleteRow(index, row) {
-      let self = this;
-      this.$dialog.confirm({
-        title: "Are you sure?",
-        message: "If you press delete the row will be removed indefinetly",
-        onConfirm(value) {
-          axios
-            .delete(path + "/subscription/" + row.id, {
-              headers: {
-                Authorization: "Bearer " + localStorage.getItem("auth_token")
-              }
-            })
-            .then(response => {
-              row = null;
-              this.$dialog.alert(response.data.message);
-              self.data.splice(index, 1);
-            })
-            .catch(error => {
-              this.$dialog.alert(error.response.data.message);
-            });
-        }
-      });
-    }
-  },
-  components: {
-    Modal,
-    Datepicker
+          })
+          .then(response => {
+            this.$swal(response.data.message);
+            this.data.splice(
+              this.data.find(element => element.id === row.id),
+              1
+            );
+          })
+          .catch(error => {
+            console.log(error);
+            this.$swal(error.response.data.message);
+          });
+      }
+    });
   }
-};
+}
 </script>
 <style>
 button.is-success {
