@@ -7,6 +7,7 @@ import Vuex from "vuex";
 import axios from "axios";
 import "./assets/scss/app.scss";
 import Icon from "vue-awesome/components/Icon.vue";
+import VueSweetalert2 from 'vue-sweetalert2';
 
 // Enable production tips from Vue. (not required)
 // https://vuejs.org/v2/api/#productionTip
@@ -16,6 +17,7 @@ Vue.config.productionTip = true;
 Vue.component("icon", Icon);
 Vue.use(Buefy);
 Vue.use(Vuex, axios);
+Vue.use(VueSweetalert2);
 
 // Attempt to read credentials from local storage
 store.dispatch("tryAutoLogin");
