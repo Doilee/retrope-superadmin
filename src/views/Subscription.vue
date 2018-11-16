@@ -11,7 +11,6 @@
 <script>
 // @ is an alias to /src
 import Subscription from "@/components/Subscription.vue";
-import AddClient from "@/components/AddClient.vue";
 
 export default {
   name: "subscription",
