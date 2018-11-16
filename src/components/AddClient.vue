@@ -38,51 +38,51 @@
 </template>
 
 <script lang="ts">
+import Vue from "vue";
 import axios from "@/axios";
 import Modal from "@/components/Modal.vue";
 import { apiHost } from "@/config";
 import router from "@/router";
+import Component from "vue-class-component";
 
 const path = apiHost;
 
-export default {
-  data() {
-    return {
-      data: [],
-      props: ["name"],
-      showModal: false,
-      modalData: {
-        id: Number,
-        name: ""
-      }
-    };
-  },
-  methods: {
-    addRow() {
-      axios
-        .post(path + "/client", this.modalData, {
-          headers: {
-            Authorization: "Bearer " + localStorage.getItem("auth_token")
-          }
-        })
-        .then(response => {
-          this.showModal = false;
-          this.$dialog.alert(response.data.message);
-          router.push({ name: "Login" });
-        })
-        .catch(error => {
-          this.showModal = false;
-          this.$dialog.alert(error.response.data.message);
-        });
-    },
-    openAddForm(row) {
-      this.showModal = true;
-    }
-  },
+@Component({
   components: {
     Modal
   }
-};
+})
+export default class AddClient extends Vue {
+  data: Array = [];
+  props: Array = ["name"];
+  showModal: boolean = false;
+  modalData: Object = {
+    id: Number,
+    name: ""
+  };
+
+  addRow(): void {
+    axios
+      .post(path + "/client", this.modalData, {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("auth_token")
+        }
+      })
+      .then(response => {
+        this.showModal = false;
+        let message = response.data.message;
+        this.$swal(response.data.message);
+      })
+      .catch(error => {
+        this.showModal = false;
+        this.$swal(error.response.data.message);
+      });
+  }
+
+  openAddForm(row): void {
+    this.showModal = true;
+  }
+}
 </script>
 <style>
 button.is-success {

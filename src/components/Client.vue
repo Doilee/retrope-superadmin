@@ -67,7 +67,7 @@
           </button>
           <button
             class="button is-small is-danger"
-            @click="deleteRow(props.index, props.row);"
+            @click="deleteRow(props.row);"
           >
             <b-icon icon="delete" size="is-small"></b-icon>
           </button>
@@ -111,28 +111,32 @@
 </template>
 
 <script lang="ts">
+import Vue from "vue";
 import axios from "@/axios";
 import Modal from "@/components/Modal.vue";
 import { apiHost } from "@/config";
+import Component from "vue-class-component";
 
 const path = apiHost;
 
-export default {
-  data() {
-    return {
-      data: [],
-      isPaginated: true,
-      isPaginationSimple: false,
-      defaultSortDirection: "asc",
-      currentPage: 1,
-      perPage: 5,
-      showModal: false,
-      modalData: {
-        id: Number,
-        name: String
-      }
-    };
-  },
+@Component({
+  components: {
+    Modal
+  }
+})
+export default class Client extends Vue {
+  data: Array = [];
+  isPaginated: boolean = true;
+  isPaginationSimple: boolean = false;
+  defaultSortDirection: string = "asc";
+  currentPage: Number = 1;
+  perPage: Number = 5;
+  showModal: boolean = false;
+  modalData: Object = {
+    id: Number,
+    name: String
+  };
+
   created() {
     axios
       .get(path + "/client", {
@@ -144,49 +148,58 @@ export default {
         this.data = response.data.data;
       })
       .catch(error => {});
-  },
-  methods: {
-    updateRow() {
-      axios
-        .put(path + "/client/" + this.modalData.id, this.modalData, {
-          headers: {
-            Authorization: "Bearer " + localStorage.getItem("auth_token")
-          }
-        })
-        .then(response => {
-          this.showModal = false;
-          this.$dialog.alert(response.data.message);
-        })
-        .catch(error => {
-          this.showModal = false;
-          this.$dialog.alert(error.response.data.message);
-        });
-    },
-    openEditForm(row) {
-      this.modalData = row;
-      this.showModal = true;
-    },
-    deleteRow(index, row) {
-      axios
-        .delete(path + "/client/" + row.id, {
-          headers: {
-            Authorization: "Bearer " + localStorage.getItem("auth_token")
-          }
-        })
-        .then(response => {
-          row = null;
-          this.$dialog.alert(response.data.message);
-          this.data.splice(index, 1);
-        })
-        .catch(error => {
-          this.$dialog.alert(error.response.data.message);
-        });
-    }
-  },
-  components: {
-    Modal
   }
-};
+  updateRow() {
+    axios
+      .put(path + "/client/" + this.modalData.id, this.modalData, {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("auth_token")
+        }
+      })
+      .then(response => {
+        this.showModal = false;
+        this.$swal(response.data.message);
+      })
+      .catch(error => {
+        this.showModal = false;
+        this.$swal(error.response.data.message);
+      });
+  }
+  openEditForm(row) {
+    this.modalData = row;
+    this.showModal = true;
+  }
+  deleteRow(index, row) {
+    this.$swal({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      type: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!"
+    }).then(result => {
+      if (result.value) {
+        axios
+          .delete(path + "/client/" + row.id, {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("auth_token")
+            }
+          })
+          .then(response => {
+            this.$swal(response.data.message);
+            this.data.splice(
+              this.data.find(element => element.id === row.id),
+              1
+            );
+          })
+          .catch(error => {
+            this.$swal(error.response.data.message);
+          });
+      }
+    });
+  }
+}
 </script>
 <style>
 button.is-success {
