@@ -1,5 +1,17 @@
 <template>
   <section class="hero">
+    <div class="field">
+      <button
+        class="button is-primary is-medium"
+        @click="
+          openEditForm({
+            name: ''
+          });
+        "
+      >
+        Add client
+      </button>
+    </div>
     <b-field grouped group-multiline>
       <b-select v-model="defaultSortDirection">
         <option value="asc">Default sort direction: ASC</option>
@@ -97,7 +109,12 @@
       <div slot="footer">
         <div class="field is-grouped">
           <div class="control">
-            <button class="button is-link" @click="updateRow();">Submit</button>
+            <button
+              class="button is-link"
+              @click="modalData.id ? updateRow() : addRow();"
+            >
+              Submit
+            </button>
           </div>
           <div class="control">
             <button class="button is-text" @click="showModal = false;">
@@ -148,6 +165,23 @@ export default class Client extends Vue {
         this.data = response.data.data;
       })
       .catch(error => {});
+  }
+  addRow() {
+    axios
+      .post(path + "/client", this.modalData, {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("auth_token")
+        }
+      })
+      .then(response => {
+        this.showModal = false;
+        this.$swal(response.data.message);
+        this.data.push(response.data.client);
+      })
+      .catch(error => {
+        this.showModal = false;
+        this.$swal(error.response.data.message);
+      });
   }
   updateRow() {
     axios

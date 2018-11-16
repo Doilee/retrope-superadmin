@@ -7,7 +7,7 @@ import Vuex from "vuex";
 import axios from "axios";
 import "./assets/scss/app.scss";
 import Icon from "vue-awesome/components/Icon.vue";
-import VueSweetalert2 from 'vue-sweetalert2';
+import VueSweetalert2 from "vue-sweetalert2";
 
 // Enable production tips from Vue. (not required)
 // https://vuejs.org/v2/api/#productionTip
