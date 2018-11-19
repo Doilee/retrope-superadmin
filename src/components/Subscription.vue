@@ -96,27 +96,28 @@ import Modal from "@/components/Modal.vue";
 import { apiHost } from "@/config";
 import Datepicker from "vuejs-datepicker";
 import moment, { Moment } from "moment";
-import Component from "vue-class-component";
-import Vue from "vue";
+import { Vue, Component, Prop } from "vue-property-decorator";
 
 const path = apiHost;
 
+interface SubscriptionData {
+  id?: number;
+  type: string;
+  expires_at: string;
+}
+
 @Component({
-  props: {
-    client_id: Number | String
-  },
   components: {
     Modal,
     Datepicker
   }
 })
 export default class Subscription extends Vue {
-  data: Array = [];
+  @Prop([Number, String]) client_id!: number | string;
+
+  data: Array<SubscriptionData> = [];
   showModal: boolean = false;
-  modalData: {
-    type: String;
-    expires_at: String;
-  };
+  modalData = {} as SubscriptionData;
 
   created() {
     axios
@@ -127,8 +128,7 @@ export default class Subscription extends Vue {
       })
       .then(response => {
         this.data = response.data.subscriptions;
-      })
-      .catch(error => {});
+      });
   }
 
   updateRow() {
@@ -199,7 +199,7 @@ export default class Subscription extends Vue {
           .then(response => {
             this.$swal(response.data.message);
             this.data.splice(
-              this.data.find(element => element.id === row.id),
+              this.data.findIndex(element => element.id === row.id),
               1
             );
           })

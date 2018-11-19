@@ -128,13 +128,17 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
 import axios from "@/axios";
 import Modal from "@/components/Modal.vue";
 import { apiHost } from "@/config";
-import Component from "vue-class-component";
+import { Vue, Component, Prop } from "vue-property-decorator";
 
 const path = apiHost;
+
+interface ClientData {
+  id?: number;
+  name: string;
+}
 
 @Component({
   components: {
@@ -142,17 +146,15 @@ const path = apiHost;
   }
 })
 export default class Client extends Vue {
-  data: Array = [];
+  data: Array<ClientData> = [];
   isPaginated: boolean = true;
   isPaginationSimple: boolean = false;
   defaultSortDirection: string = "asc";
   currentPage: Number = 1;
   perPage: Number = 5;
   showModal: boolean = false;
-  modalData: Object = {
-    id: Number,
-    name: String
-  };
+
+  modalData = {} as ClientData;
 
   created() {
     axios
@@ -163,8 +165,7 @@ export default class Client extends Vue {
       })
       .then(response => {
         this.data = response.data.data;
-      })
-      .catch(error => {});
+      });
   }
   addRow() {
     axios
@@ -203,7 +204,7 @@ export default class Client extends Vue {
     this.modalData = row;
     this.showModal = true;
   }
-  deleteRow(index, row) {
+  deleteRow(row) {
     this.$swal({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
@@ -223,7 +224,7 @@ export default class Client extends Vue {
           .then(response => {
             this.$swal(response.data.message);
             this.data.splice(
-              this.data.find(element => element.id === row.id),
+              this.data.findIndex(element => element.id === row.id),
               1
             );
           })
