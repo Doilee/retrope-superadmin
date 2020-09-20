@@ -95,7 +95,7 @@ import axios from "@/axios";
 import Modal from "@/components/Modal.vue";
 import { apiHost } from "@/config";
 import Datepicker from "vuejs-datepicker";
-import moment, { Moment } from "moment";
+import moment from "moment";
 import { Vue, Component, Prop } from "vue-property-decorator";
 
 const path = apiHost;
